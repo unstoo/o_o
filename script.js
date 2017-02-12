@@ -2,11 +2,6 @@ console.log('Success.');
 
 log = console.log;
 user = {};
-Object.defineProperty(user, 'name', {
-  get: function() { return document.getElementById("foo").value }, 
-  set: function(newValue) { document.getElementById("foo").value = newValue; },
-  configurable: true, // Для того, чтобы можно было переопределить это позднее
-});
 
 
 var o_o = (function() {
@@ -67,7 +62,6 @@ var o_o = (function() {
 			return	input;
 		},
 		broadcast: function() {	
-
 			for (var i = 0; i < this.clients.length; i++) {
 				this.clients[i].innerHTML = JSON.stringify(this.objectClone);				
 			}				 
