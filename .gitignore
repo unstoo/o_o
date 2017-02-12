@@ -1,7 +1,2 @@
-<<<<<<< HEAD
-# Ignore everything
 *.html
-*.css
-*.php
-*.json
-*/
+*\
