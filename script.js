@@ -42,7 +42,9 @@ var o_o = (function() {
 			// Synchronize 
 			this.clients = $(spectators);			
 			this.parent.addEventListener("keyup", () => this.broadcast());
-			this.parent.addEventListener("keyup", () => this.broadcast());	
+			this.parent.addEventListener("click", () => this.broadcast());	
+			
+			return this;
 			
 		},
 		streamToModel() {
