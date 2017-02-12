@@ -1,9 +1,7 @@
 console.log('Success.');
 log = console.log;
-user = {};
 
 var o_o = (function() {
-	var log = console.log;
 	var parent = null;
 	var interest = [];
 	var objectClone = {};
@@ -11,24 +9,24 @@ var o_o = (function() {
 	
 	return {
 		// select parent container
-		insideOf: function(query) {
-			this.parent = document.body.querySelector(query);
+		insideOf(parent) {
+			this.parent = document.body.querySelector(parent);
 			return this;
 		},
 		// track these elements' inners 
-		observe: function(string) {
-			this.interest = $(this.parent).find(string);			
+		observe(domElements) {
+			this.interest = $(this.parent).find(domElements);			
 			return this;
 		},
-		// clone data to a JS object
-		cacheTo: function(object) {
+		// Bind data in domElements ^ to JS object properties
+		cacheTo(object) {
 			if(object) {				
 				this.objectClone = object;
 			}
-			// add var members corresponding to <tags> we track
+			// Add object members corresponding to <tags> we track
 			this.interest.each((i, el) => {	
+				// If <tag> has id attr use it as a key, otherwise use an index #
 				var key = (el.id) ? el.id : i;
-				// add property to the cloneObject
 				// return <tag id value> --> {"id" : tag.value} --> object.id  
 				// assign object.id = newVal --> {"id" : tag.value = newVal} --> <tag id val = newVal>		
 				Object.defineProperty(this.objectClone, key, {
@@ -40,33 +38,35 @@ var o_o = (function() {
 			});
 			return this;
 		},
-		streamToView: function(spectators) {			
-			this.clients = $(spectators);
-			
-			this.parent.addEventListener("keyup", () => this.broadcast());			
-			// this.parent.addEventListener("change", c => broadcast(c));
-			// this.parent.addEventListener("click", c => broadcast(c));
+		streamToView(spectators) {			
+			// Synchronize 
+			this.clients = $(spectators);			
+			this.parent.addEventListener("keyup", () => this.broadcast());
+			this.parent.addEventListener("keyup", () => this.broadcast());	
 			
 		},
-		streamToModel: function() {
+		streamToModel() {
 			this.parent.addEventListener("keyup", () => log(this.getFields()) );
 			return this;
 		},
-		getFields: function() {			
+		getFields() {			
 			var input = {};
 			for(field in this.objectClone) {
 				input[field] = this.objectClone[field];
 			}
-			return	input;
+			return input;
 		},
-		broadcast: function() {	
+		broadcast() {	
+			var input = this.getFields();
 			for (var i = 0; i < this.clients.length; i++) {
-				this.clients[i].innerHTML = JSON.stringify(this.objectClone);				
+				this.clients[i].innerHTML = JSON.stringify(input);				
 			}				 
 		}
 	};
 }())	
 
 var taskForm = {}; // An object whose properties are bound to getFields of a form
-var o = o_o.insideOf('#form').observe('input, textarea, :checkbox').cacheTo(taskForm)
-				.streamToModel().streamToView("#screen, #screen2");
+var o = o_o.insideOf('#form').observe('input, textarea, :checkbox')
+			.cacheTo(taskForm) // Optional
+			.streamToModel()
+			.streamToView("#screen, #screen2");
