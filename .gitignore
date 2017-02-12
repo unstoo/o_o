@@ -1,0 +1,30 @@
+<<<<<<< HEAD
+# Ignore everything
+*.html
+*.css
+*.php
+*.json
+
+# But not these files...
+!.gitignore
+!script.pl
+!template.latex
+# etc...
+
+# ...even if they are in subdirectories
+=======
+# Ignore everything
+*.html
+*.css
+*.php
+*.json
+
+# But not these files...
+!.gitignore
+!script.pl
+!template.latex
+# etc...
+
+# ...even if they are in subdirectories
+>>>>>>> 4d89db0b71af0b7a0787a17e17d6b4f3a34fd61a
+!*/
